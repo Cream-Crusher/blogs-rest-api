@@ -1,1 +1,4 @@
 *venv
+*__init__.py
+*db_connect.py
+*__pycache__
