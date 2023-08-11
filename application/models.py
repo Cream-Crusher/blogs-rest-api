@@ -1,22 +1,19 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
-class User(models.Model):
+class User(User):
     USER_TYPES = (
         (True, ' Администратор'),
         (False, 'Не админимтратор'),
     )
-    user_name = models.CharField('Никнейм', max_length=200)
     is_admin = models.BooleanField(
         'Статус пользователя',
         choices=USER_TYPES,
         db_index=True,
         default='False',
         null=True)
-
-    def str(self):
-        return self.user_name
 
 
 class Blog(models.Model):
