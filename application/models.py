@@ -32,7 +32,7 @@ class Blog(models.Model):
         'Когда создан блог',
         default=timezone.now,
         db_index=True)
-    uodated_at = models.DateTimeField(
+    updated_at = models.DateTimeField(
         'Дата последнего обновления',
         default=timezone.now,
         db_index=True)
@@ -52,7 +52,7 @@ class Tag(models.Model):
     tag_name = models.CharField(
         'Назвнаие тега',
         max_length=20,
-        db_index=True)
+        unique=True)
 
     def str(self):
         return self.tag_name
@@ -88,7 +88,7 @@ class Post(models.Model):
     views = models.IntegerField(default=0)
     tags = models.ManyToManyField(
         Tag,
-        related_name="tags",
+        related_name='tags',
         verbose_name='Теги',
         blank=True)
 
