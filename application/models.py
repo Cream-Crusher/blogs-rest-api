@@ -2,7 +2,24 @@ from django.db import models
 from django.utils import timezone
 
 
-class Blog:
+class User(models.Model):
+    USER_TYPES = (
+        (True, ' Администратор'),
+        (False, 'Не админимтратор'),
+    )
+    user_name = models.CharField('Никнейм', max_length=200)
+    is_admin = models.BooleanField(
+        'Статус пользователя',
+        choices=USER_TYPES,
+        db_index=True,
+        default='False',
+        null=True)
+
+    def str(self):
+        return self.user_name
+
+
+class Blog(models.Model):
     title = models.CharField(
         'Назвнаие блога',
         max_length=50,
@@ -27,15 +44,21 @@ class Blog:
         'ФИО владельца',
         max_length=200)
 
+    def str(self):
+        return self.title
 
-class Tag:
+
+class Tag(models.Model):
     tag_name = models.CharField(
         'Назвнаие тега',
         max_length=20,
         db_index=True)
 
+    def str(self):
+        return self.tag_name
 
-class Post:
+
+class Post(models.Model):
     POST_TYPES = (
         (True, 'Опубликован'),
         (False, 'не опубликован'),
@@ -69,10 +92,13 @@ class Post:
         verbose_name='Теги',
         blank=True)
 
+    def str(self):
+        return self.author
 
-class Comment:
+
+class Comment(models.Model):
     authors = models.CharField(
-        'Назвнаие блога',
+        'Автор',
         max_length=50,
         db_index=True)
     body = models.TextField('комментарий')
@@ -81,16 +107,5 @@ class Comment:
         default=timezone.now,
         db_index=True)
 
-
-class User:
-    USER_TYPES = (
-        (True, ' Администратор'),
-        (False, 'Не админимтратор'),
-    )
-    user_name = models.CharField('Никнейм', max_length=200)
-    is_admin = models.BooleanField(
-        'Статус пользователя',
-        choices=USER_TYPES,
-        db_index=True,
-        default='False',
-        null=True)
+    def str(self):
+        return self.authors
