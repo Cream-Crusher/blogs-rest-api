@@ -33,11 +33,12 @@ def serialize_tag(tag):
 
     return {
         'title': tag.tag_name,
+        'posts_with_tag': tag.posts_count,
     }
 
 
 def show_home(request):
-    blogs = Blog.objects.all()
+    blogs = Blog.objects.order_by('updated_at').loading_db_queries()
     context = {
         'blogs': [serialize_blog(blog) for blog in blogs]
     }
@@ -46,7 +47,7 @@ def show_home(request):
 
 
 def show_blog(request):
-    blogs = Blog.objects.all().order_by('updated_at')
+    blogs = Blog.objects.order_by('created_at').loading_db_queries()
     context = {
         'blogs': [serialize_blog(blog) for blog in blogs]
     }
@@ -55,8 +56,7 @@ def show_blog(request):
 
 
 def show_post(request):
-    posts = Post.objects.all().filter(is_published=True).order_by('created_at').count_likes()
-
+    posts = Post.objects.filter(is_published=True).count_like().loading_db_queries()
     context = {
         'posts': [serialize_post(post) for post in posts]
     }
@@ -66,7 +66,7 @@ def show_post(request):
 
 @login_required(login_url='/accounts/login/')
 def show_user_post(request):
-    posts = Post.objects.filter(author=request.user).count_likes()
+    posts = Post.objects.filter(author=request.user).count_like().loading_db_queries()
     context = {
         'posts': [serialize_post(post) for post in posts]
     }
@@ -77,7 +77,7 @@ def show_user_post(request):
 @login_required(login_url='/accounts/login/')
 def show_user_blog(request):
     user = User.objects.get(username=request.user)
-    blogs = user.authors.all()
+    blogs = user.authors.order_by('created_at').loading_db_queries()
 
     context = {
         'blogs': [serialize_blog(blog) for blog in blogs]

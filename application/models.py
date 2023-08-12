@@ -1,14 +1,26 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.db.models import Count  # , Prefetch
+from django.db.models import Count, Prefetch
 
 
 class PostQuerySet(models.QuerySet):
 
-    def count_likes(self):
+    def loading_db_queries(self):  # Оптимизация запросов к DB
+        prefetch = Prefetch('tags', queryset=Tag.objects.annotate(posts_count=Count('tags')))
+
+        return self.prefetch_related('author', prefetch)
+
+    def count_like(self):
 
         return self.annotate(posts_count=Count('liked_posts'))
+
+
+class BlogQuerySet(models.QuerySet):
+
+    def loading_db_queries(self):  # Оптимизация запросов к DB
+
+        return self.prefetch_related('authors')
 
 
 class Blog(models.Model):
@@ -35,6 +47,8 @@ class Blog(models.Model):
     owner = models.CharField(
         'ФИО владельца',
         max_length=200)
+
+    objects = BlogQuerySet.as_manager()
 
     def __str__(self):
         return self.title
