@@ -33,10 +33,10 @@ class Blog(models.Model):
         'Дата последнего обновления',
         default=timezone.now,
         db_index=True)
-    authors = models.ManyToManyField(
+    author = models.ManyToManyField(
         User,
         verbose_name='Автор(ы)',
-        related_name="owners")
+        related_name='authors')
     owner = models.CharField(
         'ФИО владельца',
         max_length=200)
@@ -61,8 +61,7 @@ class Post(models.Model):
         (False, 'не опубликован'),
     )
     author = models.ForeignKey(
-        Blog,
-        null=True,
+        User,
         on_delete=models.CASCADE,
         related_name='posts',
         verbose_name='Автор поста')
