@@ -1,6 +1,14 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.db.models import Count  # , Prefetch
+
+
+class PostQuerySet(models.QuerySet):
+
+    def count_likes(self):
+
+        return self.annotate(posts_count=Count('liked_posts'))
 
 
 class Blog(models.Model):
@@ -28,7 +36,7 @@ class Blog(models.Model):
         'ФИО владельца',
         max_length=200)
 
-    def str(self):
+    def __str__(self):
         return self.title
 
 
@@ -38,7 +46,7 @@ class Tag(models.Model):
         max_length=20,
         unique=True)
 
-    def str(self):
+    def __str__(self):
         return self.tag_name
 
 
@@ -67,7 +75,6 @@ class Post(models.Model):
         'Когда создан пост',
         db_index=True)
 
-    likes = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
     tags = models.ManyToManyField(
         Tag,
@@ -75,8 +82,10 @@ class Post(models.Model):
         verbose_name='Теги',
         blank=True)
 
-    def str(self):
-        return self.author
+    objects = PostQuerySet.as_manager()
+
+    def __str__(self):
+        return self.title
 
 
 class User(User):
@@ -115,5 +124,5 @@ class Comment(models.Model):
         default=timezone.now,
         db_index=True)
 
-    def str(self):
+    def __str__(self):
         return self.authors

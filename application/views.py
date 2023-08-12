@@ -23,7 +23,7 @@ def serialize_post(post):
         'body': post.body,
         'is_published': post.is_published,
         'created_at': post.created_at,
-        'likes': post.likes,
+        'likes': post.posts_count,
         'views': post.views,
         'tags': [serialize_tag(tag) for tag in post.tags.all()],
     }
@@ -55,7 +55,8 @@ def show_blog(request):
 
 
 def show_post(request):
-    posts = Post.objects.all().filter(is_published=True).order_by('created_at')
+    posts = Post.objects.all().filter(is_published=True).order_by('created_at').count_likes()
+
     context = {
         'posts': [serialize_post(post) for post in posts]
     }
@@ -65,7 +66,7 @@ def show_post(request):
 
 @login_required(login_url='/accounts/login/')
 def show_user_post(request):
-    posts = Post.objects.filter(author=request.user)
+    posts = Post.objects.filter(author=request.user).count_likes()
     context = {
         'posts': [serialize_post(post) for post in posts]
     }
