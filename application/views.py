@@ -10,7 +10,7 @@ def serialize_blog(blog):
         'description': blog.description,
         'created_at': blog.created_at,
         'updated_at': blog.updated_at,
-        'authors': [author.user for author in blog.author.all()],
+        'authors': [author.user for author in blog.authors.all()],
         'owner': blog.owner
     }
 

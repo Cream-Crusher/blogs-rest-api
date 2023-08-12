@@ -3,19 +3,6 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 
-class User(User):
-    USER_TYPES = (
-        (True, ' Администратор'),
-        (False, 'Не админимтратор'),
-    )
-    is_admin = models.BooleanField(
-        'Статус пользователя',
-        choices=USER_TYPES,
-        db_index=True,
-        default='False',
-        null=True)
-
-
 class Blog(models.Model):
     title = models.CharField(
         'Назвнаие блога',
@@ -33,7 +20,7 @@ class Blog(models.Model):
         'Дата последнего обновления',
         default=timezone.now,
         db_index=True)
-    author = models.ManyToManyField(
+    authors = models.ManyToManyField(
         User,
         verbose_name='Автор(ы)',
         related_name='authors')
@@ -90,6 +77,31 @@ class Post(models.Model):
 
     def str(self):
         return self.author
+
+
+class User(User):
+    USER_TYPES = (
+        (True, ' Администратор'),
+        (False, 'Не админимтратор'),
+    )
+    is_admin = models.BooleanField(
+        'Статус пользователя',
+        choices=USER_TYPES,
+        db_index=True,
+        default='False',
+        null=True)
+    liked_post = models.ManyToManyField(
+        Post,
+        related_name='liked_posts',
+        verbose_name='Лайкнутые посты',
+        blank=True
+    )
+    subscriptions = models.ManyToManyField(
+        Blog,
+        related_name='subscription_blogs',
+        verbose_name='ПОдписки',
+        blank=True
+    )
 
 
 class Comment(models.Model):
