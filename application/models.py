@@ -7,7 +7,7 @@ from django.db.models import Count, Prefetch
 class PostQuerySet(models.QuerySet):
 
     def loading_db_queries(self):  # Оптимизация запросов к DB
-        prefetch = Prefetch('tags', queryset=Tag.objects.annotate(posts_count=Count('tags')))
+        prefetch = Prefetch('tags', queryset=Tag.objects.all())  # (posts_count=Count('tags')))
 
         return self.prefetch_related('author', prefetch)
 
@@ -44,9 +44,11 @@ class Blog(models.Model):
         User,
         verbose_name='Автор(ы)',
         related_name='authors')
-    owner = models.CharField(
-        'ФИО владельца',
-        max_length=200)
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь',
+        related_name='owners')
 
     objects = BlogQuerySet.as_manager()
 
@@ -127,11 +129,12 @@ class User(User):
     )
 
 
-class Comment(models.Model):
-    authors = models.CharField(
-        'Автор',
-        max_length=50,
-        db_index=True)
+class Comment(models.Model):  # TODO Уточнить как сделать, в конце.
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='comments',
+        verbose_name='Автор Комментария')
     body = models.TextField('комментарий')
     created_at = models.DateTimeField(
         'Когда написанн комментарий',

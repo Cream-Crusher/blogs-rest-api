@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'application.apps.ApplicationConfig',
     'debug_toolbar',
+    'drf_yasg',
 ]
 
 

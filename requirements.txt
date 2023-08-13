@@ -1,3 +1,5 @@
 Django==4.2.4
 psycopg2-binary==2.9.7  # для linux
 # psycopg2==2.9.7  # для windows
+django-debug-toolbar==4.2.0  # Для DEBUG = True
+drf-yasg==1.21.7
