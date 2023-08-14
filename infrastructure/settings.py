@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'application.apps.ApplicationConfig',
     'debug_toolbar',
     'drf_yasg',
+    'rest_framework'
 ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

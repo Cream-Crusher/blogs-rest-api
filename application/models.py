@@ -7,13 +7,13 @@ from django.db.models import Count, Prefetch
 class PostQuerySet(models.QuerySet):
 
     def loading_db_queries(self):  # Оптимизация запросов к DB
-        prefetch = Prefetch('tags', queryset=Tag.objects.all())  # (posts_count=Count('tags')))
+        prefetch = Prefetch('tags', queryset=Tag.objects.all())
 
         return self.prefetch_related('author', prefetch)
 
     def count_like(self):
 
-        return self.annotate(posts_count=Count('liked_posts'))
+        return self.annotate(like_count=Count('liked_posts'))
 
 
 class BlogQuerySet(models.QuerySet):
