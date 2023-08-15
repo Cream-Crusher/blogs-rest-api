@@ -8,16 +8,15 @@ from .yasg_url import urlpatterns as doc_url
 
 
 urlpatterns = [
-   path('admin/', admin.site.urls),
-   path('api/v1/drf-auth/', include('rest_framework.urls')),
-   path('api/home_page/', BlogViews.BlogsView.as_view()),
+    path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls')),
 
-   path('api/blog/<int:id>', BlogViews.BlogView.as_view()),
-   path('api/blogs/', BlogViews.BlogsView.as_view()),
-   path('api/user_blogs/', BlogViews.UserBlogsView.as_view()),
+    path('home', BlogViews.BlogsList.as_view()),
+    path('blog_list', BlogViews.BlogsList.as_view()),
+    path('post_list', PostViews.PostsList.as_view()),
 
-   path('api/posts/', PostViews.PostsView.as_view()),
-   path('api/user_posts/', PostViews.UserPostsView.as_view()),
+    path('my_post', PostViews.MyPost.as_view()),
+    path('subscriptions_blog', BlogViews.SubscriptionsBlog.as_view()),
 ]
 
 urlpatterns += doc_url
