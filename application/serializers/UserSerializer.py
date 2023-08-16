@@ -4,7 +4,7 @@ from application.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField()
+    id = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = User
