@@ -28,39 +28,6 @@ class BlogQuerySet(models.QuerySet):
         return self.prefetch_related('authors', 'owner')
 
 
-class Blog(models.Model):
-    title = models.CharField(
-        'Назвнаие блога',
-        max_length=50,
-        db_index=True)
-    description = models.CharField(
-        'Описание блога',
-        max_length=50,
-        blank=True)
-    created_at = models.DateTimeField(
-        'Когда создан блог',
-        default=timezone.now,
-        db_index=True)
-    updated_at = models.DateTimeField(
-        'Дата последнего обновления',
-        default=timezone.now,
-        db_index=True)
-    authors = models.ManyToManyField(
-        User,
-        verbose_name='Автор(ы)',
-        related_name='authors')
-    owner = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        verbose_name='Пользователь',
-        related_name='owners')
-
-    objects = BlogQuerySet.as_manager()
-
-    def __str__(self):
-        return self.title
-
-
 class Tag(models.Model):
     tag_name = models.CharField(
         'Назвнаие тега',
@@ -104,6 +71,45 @@ class Post(models.Model):
         blank=True)
 
     objects = PostQuerySet.as_manager()
+
+    def __str__(self):
+        return self.title
+
+
+class Blog(models.Model):
+    title = models.CharField(
+        'Назвнаие блога',
+        max_length=50,
+        db_index=True)
+    description = models.CharField(
+        'Описание блога',
+        max_length=50,
+        blank=True)
+    created_at = models.DateTimeField(
+        'Когда создан блог',
+        default=timezone.now,
+        db_index=True)
+    updated_at = models.DateTimeField(
+        'Дата последнего обновления',
+        default=timezone.now,
+        db_index=True)
+    authors = models.ManyToManyField(
+        User,
+        verbose_name='Автор(ы)',
+        related_name='authors')
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь',
+        related_name='owners')
+
+    posts = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        verbose_name='Посты блога',
+        related_name='posts')
+
+    objects = BlogQuerySet.as_manager()
 
     def __str__(self):
         return self.title
