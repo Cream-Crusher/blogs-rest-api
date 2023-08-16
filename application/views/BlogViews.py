@@ -26,3 +26,8 @@ class SubscriptionsBlog(APIView):
         )
 
         return Response(serializer.data)
+
+
+class BlogDetails(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
+    queryset = Blog.objects.loading_db_queries()
+    serializer_class = BlogSerializer

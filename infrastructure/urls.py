@@ -15,8 +15,11 @@ urlpatterns = [
     path('blog_list', BlogViews.BlogsList.as_view()),
     path('post_list', PostViews.PostsList.as_view()),
 
+
     path('my_post', PostViews.MyPost.as_view()),
     path('subscriptions_blog', BlogViews.SubscriptionsBlog.as_view()),
+
+    path('blog/<int:pk>', BlogViews.BlogDetails.as_view()),
 ]
 
 urlpatterns += doc_url

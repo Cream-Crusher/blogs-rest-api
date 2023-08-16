@@ -11,6 +11,11 @@ class PostsList(generics.ListAPIView):
     serializer_class = PostSerializer
 
 
+# class PostDetails(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
+#     queryset = Post.objects.count_like().loading_db_queries()
+#     serializer_class = PostSerializer
+
+
 class MyPost(APIView):
     def get(self, request):
         posts = Post.objects.filter(author=request.user).count_like().loading_db_queries()
