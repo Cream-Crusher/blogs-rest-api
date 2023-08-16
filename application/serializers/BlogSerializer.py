@@ -12,7 +12,7 @@ class BlogSerializer(serializers.Serializer):
     updated_at = serializers.DateTimeField(read_only=True)
 
     owner = UserSerializer(many=False)
-    authors = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True)
+    authors = UserSerializer(many=True)
 
     def create(self, validated_data):
         return Blog(**validated_data)
