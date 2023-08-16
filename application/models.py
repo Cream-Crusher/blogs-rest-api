@@ -1,15 +1,20 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.db.models import Count, Prefetch
+from django.db.models import Count
+
+
+class UserQuerySet(models.QuerySet):
+    def loading_db_queries(self):  # Оптимизация запросов к DB
+
+        return self.prefetch_related('subscriptions')
 
 
 class PostQuerySet(models.QuerySet):
 
     def loading_db_queries(self):  # Оптимизация запросов к DB
-        prefetch = Prefetch('tags', queryset=Tag.objects.all())
 
-        return self.prefetch_related('author', prefetch)
+        return self.prefetch_related('author', 'tags')
 
     def count_like(self):
 
@@ -127,6 +132,8 @@ class User(User):
         verbose_name='ПОдписки',
         blank=True
     )
+
+    objects = PostQuerySet.as_manager()
 
 
 class Comment(models.Model):  # TODO Уточнить как сделать, в конце.

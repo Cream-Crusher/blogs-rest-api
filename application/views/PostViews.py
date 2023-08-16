@@ -1,5 +1,5 @@
 from rest_framework import generics
-from application.serializers.PostSerializer import PostSerializer
+from application.serializers.PostSerializer import PostSerializer, PostSerializerInteraction
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -13,7 +13,7 @@ class PostsList(generics.ListAPIView):
 
 class PostDetails(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
     queryset = Post.objects.count_like().loading_db_queries()
-    serializer_class = PostSerializer
+    serializer_class = PostSerializerInteraction
 
 
 class MyPost(APIView):

@@ -6,6 +6,20 @@ from application.serializers.TagSerializer import TagSerializer
 
 
 class PostSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    title = serializers.CharField()
+    body = serializers.CharField()
+    is_published = serializers.BooleanField()
+    created_at = serializers.DateTimeField()
+    views = serializers.IntegerField()
+
+    author = UserSerializer(many=False)
+    tags = TagSerializer(many=True)
+
+    like_count = serializers.IntegerField()
+
+
+class PostSerializerInteraction(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField()
     body = serializers.CharField()
@@ -13,8 +27,8 @@ class PostSerializer(serializers.Serializer):
     created_at = serializers.DateTimeField(read_only=True)
     views = serializers.IntegerField(read_only=True)
 
-    author = UserSerializer(read_only=True, many=False)
-    tags = TagSerializer(many=True, queryset=Tag.objects.all())
+    author = UserSerializer(many=False)
+    tags = serializers.PrimaryKeyRelatedField(queryset=Tag.objects.all(), many=True)
 
     like_count = serializers.IntegerField(read_only=True)
 

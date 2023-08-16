@@ -1,5 +1,5 @@
 from rest_framework import generics
-from application.serializers.BlogSerializer import BlogSerializer
+from application.serializers.BlogSerializer import BlogSerializer, BlogSerializerInteraction
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -19,7 +19,7 @@ class BlogsList(generics.ListAPIView):
 class SubscriptionsBlog(APIView):
     def get(self, request):
         user = User.objects.filter(username=request.user).first()
-        subscriptions = user.subscriptions.all()
+        subscriptions = user.subscriptions.all().loading_db_queries()
         serializer = BlogSerializer(
             instance=subscriptions,
             many=True
@@ -28,6 +28,6 @@ class SubscriptionsBlog(APIView):
         return Response(serializer.data)
 
 
-class BlogDetails(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
-    queryset = Blog.objects.loading_db_queries()
-    serializer_class = BlogSerializer
+class BlogDetails(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
+    queryset = Blog.objects.order_by('updated_at').loading_db_queries()
+    serializer_class = BlogSerializerInteraction
