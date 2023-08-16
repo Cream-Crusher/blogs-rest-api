@@ -7,7 +7,7 @@ from application.models import Blog, User
 
 
 class BlogList(generics.ListAPIView):
-    queryset = Blog.objects.order_by('updated_at')
+    queryset = Blog.objects.order_by('updated_at').loading_db_queries()
     serializer_class = BlogSerializer
 
 

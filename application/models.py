@@ -20,7 +20,7 @@ class BlogQuerySet(models.QuerySet):
 
     def loading_db_queries(self):  # Оптимизация запросов к DB
 
-        return self.prefetch_related('authors')
+        return self.prefetch_related('authors', 'owner')
 
 
 class Blog(models.Model):
