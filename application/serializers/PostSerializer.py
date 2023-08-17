@@ -3,6 +3,7 @@ from application.models import Post, Tag, User
 
 from application.serializers.UserSerializer import UserSerializer
 from application.serializers.TagSerializer import TagSerializer
+from application.serializers.CommentSerializer import CommentSerializer
 
 
 class PostModelSerializer(serializers.ModelSerializer):  # Запросы данных для других сериализаторов
@@ -25,6 +26,7 @@ class PostSerializer(serializers.Serializer):  # Запросы получени
     tags = TagSerializer(many=True)
 
     like_count = serializers.IntegerField()
+    comments = CommentSerializer(many=True)
 
 
 class PostSerializerСhanges(serializers.ModelSerializer):  # запросы изменеия данных
