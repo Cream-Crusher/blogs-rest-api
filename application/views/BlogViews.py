@@ -19,7 +19,7 @@ class BlogsList(generics.ListAPIView):
 class SubscriptionsBlog(APIView):
     def get(self, request):
         user = User.objects.filter(username=request.user).first()
-        subscriptions = user.subscriptions.all().loading_db_queries()
+        subscriptions = user.prefetch_related('subscriptions').all().loading_db_queries()  # .prefetch_related('subscriptions')
         serializer = BlogSerializer(
             instance=subscriptions,
             many=True

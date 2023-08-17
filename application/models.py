@@ -4,12 +4,6 @@ from django.contrib.auth.models import User
 from django.db.models import Count
 
 
-class UserQuerySet(models.QuerySet):
-    def loading_db_queries(self):  # Оптимизация запросов к DB
-
-        return self.prefetch_related('subscriptions')
-
-
 class PostQuerySet(models.QuerySet):
 
     def loading_db_queries(self):  # Оптимизация запросов к DB
@@ -102,7 +96,6 @@ class Blog(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Пользователь',
         related_name='owners')
-
     posts = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
@@ -139,8 +132,6 @@ class User(User):
         blank=True
     )
 
-    objects = PostQuerySet.as_manager()
-
 
 class Comment(models.Model):  # TODO Уточнить как сделать, в конце.
     author = models.ForeignKey(
@@ -148,6 +139,11 @@ class Comment(models.Model):  # TODO Уточнить как сделать, в 
         on_delete=models.CASCADE,
         related_name='comments',
         verbose_name='Автор Комментария')
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        related_name='comments',
+        verbose_name='пост Комментария')
     body = models.TextField('комментарий')
     created_at = models.DateTimeField(
         'Когда написанн комментарий',

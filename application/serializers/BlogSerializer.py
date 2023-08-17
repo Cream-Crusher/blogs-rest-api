@@ -2,6 +2,7 @@ from rest_framework import serializers
 from application.models import Blog, User
 
 from application.serializers.UserSerializer import UserSerializer
+from application.serializers.PostSerializer import PostSerializer
 
 
 class BlogSerializer(serializers.Serializer):
@@ -13,6 +14,7 @@ class BlogSerializer(serializers.Serializer):
 
     owner = UserSerializer(many=False)
     authors = UserSerializer(many=True)
+    posts = PostSerializer(many=True)
 
 
 class BlogSerializerInteraction(serializers.Serializer):
