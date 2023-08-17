@@ -1,5 +1,5 @@
 from rest_framework import generics
-from application.serializers.UserSerializer import UserSerializer
+from application.serializers.UserSerializer import UserSerializer, UserSerializerСhanges
 
 from application.models import User
 
@@ -11,4 +11,4 @@ class UserList(generics.ListAPIView):
 
 class UserDetails(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserSerializerСhanges
