@@ -6,7 +6,7 @@ from application.serializers.TagSerializer import TagSerializer
 
 
 class PostSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
+    id = serializers.IntegerField(read_only=True)
     title = serializers.CharField()
     body = serializers.CharField()
     is_published = serializers.BooleanField()

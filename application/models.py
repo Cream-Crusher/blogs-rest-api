@@ -100,7 +100,8 @@ class Blog(models.Model):
         Post,
         on_delete=models.CASCADE,
         verbose_name='Посты блога',
-        related_name='posts')
+        related_name='posts',
+        blank=True)
 
     objects = BlogQuerySet.as_manager()
 

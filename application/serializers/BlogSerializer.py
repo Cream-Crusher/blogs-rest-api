@@ -16,20 +16,33 @@ class BlogSerializer(serializers.Serializer):
     authors = UserSerializer(many=True)
     posts = PostSerializer(many=True)
 
+    class Meta:
+        model = Blog
+        fields = ['id', 'title', 'description', 'created_at', 'updated_at', 'owner', 'authors', 'posts']
 
-class BlogSerializerInteraction(serializers.Serializer):
+
+class BlogSerializerInteraction(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(max_length=50)
     description = serializers.CharField(max_length=50)
     created_at = serializers.DateTimeField(read_only=True)
     updated_at = serializers.DateTimeField()
 
-    owner = UserSerializer(many=False)
+    owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=False)
     authors = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True)
 
-    def create(self, validated_data):
+    class Meta:
+        model = Blog
+        fields = ['id', 'title', 'description', 'created_at', 'updated_at', 'owner', 'authors', 'posts']
 
-        return Blog(**validated_data)
+    def create(self, validated_data):
+        authors_list = validated_data.pop('authors', [])
+        blog = super().create(validated_data)
+
+        if authors_list:
+            blog.authors.set(authors_list)
+
+        return blog
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
