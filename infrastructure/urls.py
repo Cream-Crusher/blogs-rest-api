@@ -22,7 +22,7 @@ urlpatterns = [
     path('post/<int:pk>', PostViews.PostDetails.as_view()),
 
     path('tag/', TagViews.TagList.as_view()),
-    #path('tag/<int:pk>', PostViews.PostDetails.as_view()),
+    path('tag/<int:pk>', TagViews.TagDetails.as_view()),
 ]
 
 urlpatterns += doc_url
