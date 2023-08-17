@@ -133,7 +133,7 @@ class User(User):
     )
 
 
-class Comment(models.Model):  # TODO Уточнить как сделать, в конце.
+class Comment(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,

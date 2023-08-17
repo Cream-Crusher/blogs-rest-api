@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from application.views import BlogViews, PostViews
+from application.views import BlogViews, PostViews, TagViews
 
 from django.conf import settings
 
@@ -20,6 +20,9 @@ urlpatterns = [
     path('post/', PostViews.PostsList.as_view()),
     path('post/my', PostViews.MyPost.as_view()),
     path('post/<int:pk>', PostViews.PostDetails.as_view()),
+
+    path('tag/', TagViews.TagList.as_view()),
+    #path('tag/<int:pk>', PostViews.PostDetails.as_view()),
 ]
 
 urlpatterns += doc_url
