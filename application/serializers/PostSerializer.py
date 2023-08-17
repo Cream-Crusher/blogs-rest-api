@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from application.models import Post, Tag
+from application.models import Post, Tag, User
 
 from application.serializers.UserSerializer import UserSerializer
 from application.serializers.TagSerializer import TagSerializer
@@ -19,7 +19,7 @@ class PostSerializer(serializers.Serializer):
     like_count = serializers.IntegerField()
 
 
-class PostSerializerInteraction(serializers.Serializer):
+class PostSerializerInteraction(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField()
     body = serializers.CharField()
@@ -27,13 +27,23 @@ class PostSerializerInteraction(serializers.Serializer):
     created_at = serializers.DateTimeField(read_only=True)
     views = serializers.IntegerField(read_only=True)
 
-    author = UserSerializer(many=False)
+    author = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=False)
     tags = serializers.PrimaryKeyRelatedField(queryset=Tag.objects.all(), many=True)
 
     like_count = serializers.IntegerField(read_only=True)
 
+    class Meta:
+        model = Post
+        fields = ['id', 'title', 'body', 'is_published', 'created_at', 'views', 'author', 'tags', 'like_count']
+
     def create(self, validated_data):
-        return Post(**validated_data)
+        tags_list = validated_data.pop('tags', [])
+        post = super().create(validated_data)
+
+        if tags_list:
+            post.tags.set(tags_list)
+
+        return post
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)

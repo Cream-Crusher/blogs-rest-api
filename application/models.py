@@ -55,6 +55,7 @@ class Post(models.Model):
         null=True)
     created_at = models.DateTimeField(
         'Когда создан пост',
+        default=timezone.now,
         db_index=True)
 
     views = models.IntegerField(default=0)
