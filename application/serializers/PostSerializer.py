@@ -5,7 +5,15 @@ from application.serializers.UserSerializer import UserSerializer
 from application.serializers.TagSerializer import TagSerializer
 
 
-class PostSerializer(serializers.Serializer):
+class PostModelSerializer(serializers.ModelSerializer):  # Запросы данных для других сериализаторов
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        fields = '__all__'
+        model = Post
+
+
+class PostSerializer(serializers.Serializer):  # Запросы получения данных
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField()
     body = serializers.CharField()
@@ -19,7 +27,7 @@ class PostSerializer(serializers.Serializer):
     like_count = serializers.IntegerField()
 
 
-class PostSerializerInteraction(serializers.ModelSerializer):
+class PostSerializerСhanges(serializers.ModelSerializer):  # запросы изменеия данных
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField()
     body = serializers.CharField()

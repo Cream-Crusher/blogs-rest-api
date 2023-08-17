@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from application.models import Blog, User
+from application.models import Blog, User, Post
 
 from application.serializers.UserSerializer import UserSerializer
-from application.serializers.PostSerializer import PostSerializer
+from application.serializers.PostSerializer import PostModelSerializer
 
 
 class BlogSerializer(serializers.Serializer):
@@ -14,14 +14,14 @@ class BlogSerializer(serializers.Serializer):
 
     owner = UserSerializer(many=False)
     authors = UserSerializer(many=True)
-    posts = PostSerializer(many=True)
+    posts = PostModelSerializer(many=True)
 
     class Meta:
         model = Blog
         fields = ['id', 'title', 'description', 'created_at', 'updated_at', 'owner', 'authors', 'posts']
 
 
-class BlogSerializerInteraction(serializers.ModelSerializer):
+class BlogSerializerСhanges(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(max_length=50)
     description = serializers.CharField(max_length=50)
@@ -30,6 +30,7 @@ class BlogSerializerInteraction(serializers.ModelSerializer):
 
     owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=False)
     authors = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True)
+    posts = serializers.PrimaryKeyRelatedField(queryset=Post.objects.all(), many=True)
 
     class Meta:
         model = Blog

@@ -59,6 +59,7 @@ class Post(models.Model):
         db_index=True)
 
     views = models.IntegerField(default=0)
+
     tags = models.ManyToManyField(
         Tag,
         related_name='tags',
@@ -97,9 +98,8 @@ class Blog(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Пользователь',
         related_name='owners')
-    posts = models.ForeignKey(
+    posts = models.ManyToManyField(
         Post,
-        on_delete=models.CASCADE,
         verbose_name='Посты блога',
         related_name='posts',
         blank=True)

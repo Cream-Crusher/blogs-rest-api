@@ -1,9 +1,9 @@
 from rest_framework import generics
-from application.serializers.BlogSerializer import BlogSerializer, BlogSerializerInteraction
+from application.serializers.BlogSerializer import BlogSerializer, BlogSerializerСhanges
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from application.models import Blog, User
+from application.models import Blog
 
 
 class BlogList(generics.ListAPIView):
@@ -18,10 +18,10 @@ class BlogsList(generics.ListAPIView):
 
 class SubscriptionsBlog(APIView):
     def get(self, request):
-        user = User.objects.filter(username=request.user).first()
-        subscriptions = user.prefetch_related('subscriptions').all().loading_db_queries()  # .prefetch_related('subscriptions')
+        blogs = Blog.objects.filter(subscription_blogs=request.user)
+
         serializer = BlogSerializer(
-            instance=subscriptions,
+            instance=blogs,
             many=True
         )
 
@@ -30,4 +30,4 @@ class SubscriptionsBlog(APIView):
 
 class BlogDetails(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     queryset = Blog.objects.order_by('updated_at').loading_db_queries()
-    serializer_class = BlogSerializerInteraction
+    serializer_class = BlogSerializerСhanges
