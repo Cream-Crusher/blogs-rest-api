@@ -26,7 +26,7 @@ class BlogSerializerСhanges(serializers.ModelSerializer):
     title = serializers.CharField(max_length=50)
     description = serializers.CharField(max_length=50)
     created_at = serializers.DateTimeField(read_only=True)
-    updated_at = serializers.DateTimeField()
+    #updated_at = serializers.DateTimeField()
 
     owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=False)
     authors = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True)
@@ -34,7 +34,7 @@ class BlogSerializerСhanges(serializers.ModelSerializer):
 
     class Meta:
         model = Blog
-        fields = ['id', 'title', 'description', 'created_at', 'updated_at', 'owner', 'authors', 'posts']
+        fields = ['id', 'title', 'description', 'created_at', 'owner', 'authors', 'posts']
 
     def create(self, validated_data):
         authors_list = validated_data.pop('authors', [])
@@ -48,11 +48,15 @@ class BlogSerializerСhanges(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
-        instance.updated_at = validated_data.get('updated_at', instance.updated_at)
-        authors = instance.authors.all()
+        instance.owner = validated_data.get('owner', instance.owner)
         instance.save()
+        authors = validated_data.get('authors', instance.authors)
+        posts = validated_data.get('posts', instance.posts)
 
         for author in authors:
             instance.authors.add(author)
+
+        for post in posts:
+            instance.posts.add(post)
 
         return instance
