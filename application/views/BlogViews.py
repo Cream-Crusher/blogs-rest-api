@@ -6,11 +6,6 @@ from rest_framework.response import Response
 from application.models import Blog
 
 
-class BlogList(generics.ListAPIView):
-    queryset = Blog.objects.order_by('updated_at').loading_db_queries()
-    serializer_class = BlogSerializer
-
-
 class BlogsList(generics.ListAPIView):
     queryset = Blog.objects.order_by('updated_at').loading_db_queries()
     serializer_class = BlogSerializer
