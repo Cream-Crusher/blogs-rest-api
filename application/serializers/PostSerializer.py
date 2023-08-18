@@ -62,10 +62,10 @@ class PostSerializerСhanges(serializers.ModelSerializer):  # запросы и�
         instance.created_at = validated_data.get('created_at', instance.created_at)
         instance.views = validated_data.get('views', instance.views)
         instance.author = validated_data.get('author', instance.author)
-
-        tags = instance.tag.all()
+        instance.save()
+        tags = validated_data.get('tags', instance.views)
 
         for tag in tags:
-            instance.tag.add(tag)
+            instance.tags.add(tag)
 
         return instance

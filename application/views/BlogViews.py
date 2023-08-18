@@ -13,7 +13,7 @@ class BlogsList(generics.ListAPIView):
 
 class SubscriptionsBlog(APIView):
     def get(self, request):
-        blogs = Blog.objects.filter(subscription_blogs=request.user)
+        blogs = Blog.objects.filter(subscription_blogs=request.user).loading_db_queries()
 
         serializer = BlogSerializer(
             instance=blogs,
@@ -26,3 +26,14 @@ class SubscriptionsBlog(APIView):
 class BlogDetails(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     queryset = Blog.objects.order_by('updated_at').loading_db_queries()
     serializer_class = BlogSerializerСhanges
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.title = request.data.get('title')
+        instance.save()
+
+        serializer = self.get_serializer(instance)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        return Response(serializer.data)
