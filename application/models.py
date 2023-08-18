@@ -50,13 +50,11 @@ class Post(models.Model):
     is_published = models.BooleanField(
         'Статус публикации поста',
         choices=POST_TYPES,
-        db_index=True,
         default='False',
         null=True)
     created_at = models.DateTimeField(
         'Когда создан пост',
-        default=timezone.now,
-        db_index=True)
+        auto_now_add=True)
 
     views = models.IntegerField(default=0)
 
@@ -88,12 +86,10 @@ class Blog(models.Model):
         blank=True)
     created_at = models.DateTimeField(
         'Когда создан блог',
-        default=timezone.now,
-        db_index=True)
+        auto_now_add=True)
     updated_at = models.DateTimeField(
         'Дата последнего обновления',
-        default=timezone.now,
-        db_index=True)
+        auto_now=True)
     authors = models.ManyToManyField(
         User,
         verbose_name='Автор(ы)',
@@ -148,7 +144,7 @@ class Comment(models.Model):
     body = models.TextField('комментарий')
     created_at = models.DateTimeField(
         'Когда написанн комментарий',
-        default=timezone.now,
+        auto_now_add=True,
         db_index=True)
 
     def __str__(self):
