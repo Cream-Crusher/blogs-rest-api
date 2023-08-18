@@ -34,7 +34,6 @@ class PostSerializerСhanges(serializers.ModelSerializer):  # запросы и�
     title = serializers.CharField()
     body = serializers.CharField()
     is_published = serializers.BooleanField()
-    created_at = serializers.DateTimeField(read_only=True)
     views = serializers.IntegerField(read_only=True)
 
     author = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=False)
@@ -44,7 +43,7 @@ class PostSerializerСhanges(serializers.ModelSerializer):  # запросы и�
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'body', 'is_published', 'created_at', 'views', 'author', 'tags', 'like_count']
+        fields = ['id', 'title', 'body', 'is_published', 'views', 'author', 'tags', 'like_count']
 
     def create(self, validated_data):
         tags_list = validated_data.pop('tags', [])
@@ -59,7 +58,6 @@ class PostSerializerСhanges(serializers.ModelSerializer):  # запросы и�
         instance.title = validated_data.get('title', instance.title)
         instance.body = validated_data.get('body', instance.body)
         instance.is_published = validated_data.get('is_published', instance.is_published)
-        instance.created_at = validated_data.get('created_at', instance.created_at)
         instance.views = validated_data.get('views', instance.views)
         instance.author = validated_data.get('author', instance.author)
         instance.save()
