@@ -11,14 +11,14 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
 
-    path('home', BlogViews.BlogsList.as_view()),
+    path('home', BlogViews.BlogsList.as_view(), name='home'),
 
-    path('blog/', BlogViews.BlogsList.as_view()),
-    path('blog/subscriptions', BlogViews.SubscriptionsBlog.as_view()),
-    path('blog/<int:pk>', BlogViews.BlogDetails.as_view()),
+    path('blog/', BlogViews.BlogsList.as_view(), name='blog'),
+    path('blog/subscriptions', BlogViews.SubscriptionsBlog.as_view(), name='blog_subscriptions'),
+    path('blog/<int:pk>', BlogViews.BlogDetails.as_view(), name='blog_id'),
 
-    path('post/', PostViews.PostsList.as_view(), name='post_home'),
-    path('post/my', PostViews.MyPost.as_view()),
+    path('post/', PostViews.PostsList.as_view(), name='post'),
+    path('post/my', PostViews.MyPost.as_view(), name='my_post'),
     path('post/<int:pk>', PostViews.PostDetails.as_view(), name='post_id'),
     path('post/<int:pk>/like/', PostViews.PostLike, name="post_like"),
 
