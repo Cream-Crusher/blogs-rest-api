@@ -12,7 +12,7 @@ class PostQuerySet(models.QuerySet):
 
     def count_like(self):
 
-        return self.annotate(like_count=Count('liked_posts'))
+        return self.annotate(like_count=Count('likes'))
 
 
 class BlogQuerySet(models.QuerySet):
@@ -65,6 +65,11 @@ class Post(models.Model):
         related_name='tags',
         verbose_name='Теги',
         blank=True)
+    likes = models.ManyToManyField(
+        User,
+        blank=True,
+        related_name='post_like'
+        )
 
     objects = PostQuerySet.as_manager()
 
@@ -121,12 +126,6 @@ class User(User):
         db_index=True,
         default='False',
         null=True)
-    liked_post = models.ManyToManyField(
-        Post,
-        related_name='liked_posts',
-        verbose_name='Лайкнутые посты',
-        blank=True
-    )
     subscriptions = models.ManyToManyField(
         Blog,
         related_name='subscription_blogs',

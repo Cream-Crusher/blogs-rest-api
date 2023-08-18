@@ -17,9 +17,10 @@ urlpatterns = [
     path('blog/subscriptions', BlogViews.SubscriptionsBlog.as_view()),
     path('blog/<int:pk>', BlogViews.BlogDetails.as_view()),
 
-    path('post/', PostViews.PostsList.as_view()),
+    path('post/', PostViews.PostsList.as_view(), name='post_home'),
     path('post/my', PostViews.MyPost.as_view()),
-    path('post/<int:pk>', PostViews.PostDetails.as_view()),
+    path('post/<int:pk>', PostViews.PostDetails.as_view(), name='post_id'),
+    path('post/<int:pk>/like/', PostViews.PostLike, name="post_like"),
 
     path('tag/', TagViews.TagList.as_view()),
     path('tag/<int:pk>', TagViews.TagDetails.as_view()),
