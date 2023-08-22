@@ -9,7 +9,7 @@ from .yasg_url import urlpatterns as doc_url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
+    path('api-auth/', include('rest_framework.urls'), name='auth'),
 
     path('home', BlogViews.BlogsList.as_view(), name='home'),
 

@@ -1,5 +1,6 @@
 from rest_framework import generics
 from application.serializers.PostSerializer import PostSerializer, PostSerializerСhanges
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -11,16 +12,20 @@ from django.shortcuts import redirect
 
 
 class PostsList(generics.ListAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Post.objects.filter(is_published=True).count_like().loading_db_queries()
     serializer_class = PostSerializer
 
 
 class PostDetails(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Post.objects.count_like().loading_db_queries()
     serializer_class = PostSerializerСhanges
 
 
 class MyPost(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         posts = Post.objects.filter(author=request.user).count_like().loading_db_queries()
         serializer = PostSerializer(
