@@ -7,33 +7,26 @@ from application.serializers.CommentSerializer import CommentSerializer
 
 
 class PostModelSerializer(serializers.ModelSerializer):  # Запросы данных для других сериализаторов
-    id = serializers.IntegerField(read_only=True)
 
     class Meta:
         fields = '__all__'
         model = Post
 
 
-class PostSerializer(serializers.Serializer):  # Запросы получения данных
-    id = serializers.IntegerField(read_only=True)
-    title = serializers.CharField()
-    body = serializers.CharField()
-    is_published = serializers.BooleanField()
-    created_at = serializers.DateTimeField()
-    views = serializers.IntegerField()
-
+class PostSerializer(serializers.ModelSerializer):  # Запросы получения данных
     author = UserSerializer(many=False)
     tags = TagSerializer(many=True)
+    comments = CommentSerializer(many=True)
 
     like_count = serializers.IntegerField()
-    comments = CommentSerializer(many=True)
+
+    class Meta:
+        model = Post
+        fields = ['id', 'title', 'body', 'is_published', 'created_at', 'views', 'author', 'tags', 'like_count', 'comments']
 
 
 class PostSerializerСhanges(serializers.ModelSerializer):  # запросы изменеия данных
     id = serializers.IntegerField(read_only=True)
-    title = serializers.CharField()
-    body = serializers.CharField()
-    is_published = serializers.BooleanField()
     views = serializers.IntegerField(read_only=True)
 
     author = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=False)

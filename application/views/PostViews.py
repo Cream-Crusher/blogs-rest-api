@@ -1,6 +1,6 @@
 from rest_framework import generics
 from application.serializers.PostSerializer import PostSerializer, PostSerializerСhanges
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -12,7 +12,7 @@ from django.shortcuts import redirect
 
 
 class PostsList(generics.ListAPIView):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [AllowAny]
     queryset = Post.objects.filter(is_published=True).count_like().loading_db_queries()
     serializer_class = PostSerializer
 

@@ -5,13 +5,7 @@ from application.serializers.UserSerializer import UserSerializer
 from application.serializers.PostSerializer import PostModelSerializer
 
 
-class BlogSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-    title = serializers.CharField()
-    description = serializers.CharField()
-    created_at = serializers.DateTimeField()
-    updated_at = serializers.DateTimeField()
-
+class BlogSerializer(serializers.ModelSerializer):
     owner = UserSerializer(many=False)
     authors = UserSerializer(many=True)
     posts = PostModelSerializer(many=True)
@@ -45,6 +39,8 @@ class BlogSerializerСhanges(serializers.ModelSerializer):
         return blog
 
     def update(self, instance, validated_data):
+
+
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
         instance.owner = validated_data.get('owner', instance.owner)
