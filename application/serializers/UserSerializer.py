@@ -13,8 +13,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserSerializerСhanges(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    is_admin = serializers.BooleanField()
-    password = serializers.CharField()
     subscriptions = serializers.PrimaryKeyRelatedField(queryset=Blog.objects.all(), many=True)
 
     class Meta:

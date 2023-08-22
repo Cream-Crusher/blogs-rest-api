@@ -17,8 +17,6 @@ class BlogSerializer(serializers.ModelSerializer):
 
 class BlogSerializerСhanges(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    title = serializers.CharField(max_length=50)
-    description = serializers.CharField(max_length=50)
     created_at = serializers.DateTimeField(read_only=True)
     updated_at = serializers.DateTimeField(read_only=True)
     owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=False)
@@ -39,8 +37,6 @@ class BlogSerializerСhanges(serializers.ModelSerializer):
         return blog
 
     def update(self, instance, validated_data):
-
-
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
         instance.owner = validated_data.get('owner', instance.owner)

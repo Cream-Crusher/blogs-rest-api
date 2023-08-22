@@ -4,7 +4,6 @@ from application.models import Tag
 
 class TagSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    tag_name = serializers.CharField()
 
     class Meta:
         model = Tag
