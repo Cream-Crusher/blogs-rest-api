@@ -13,7 +13,7 @@ class BlogsList(generics.ListAPIView):
 
 class SubscriptionsBlog(APIView):
     def get(self, request):
-        blogs = Blog.objects.filter(subscription_blogs=request.user).loading_db_queries()
+        blogs = Blog.objects.order_by('updated_at').filter(subscription_blogs=request.user).loading_db_queries()
 
         serializer = BlogSerializer(
             instance=blogs,

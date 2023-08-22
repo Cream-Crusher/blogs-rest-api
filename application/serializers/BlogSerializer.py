@@ -26,13 +26,14 @@ class BlogSerializerСhanges(serializers.ModelSerializer):
     title = serializers.CharField(max_length=50)
     description = serializers.CharField(max_length=50)
     created_at = serializers.DateTimeField(read_only=True)
+    updated_at = serializers.DateTimeField(read_only=True)
     owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=False)
     authors = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True)
     posts = serializers.PrimaryKeyRelatedField(queryset=Post.objects.all(), many=True)
 
     class Meta:
         model = Blog
-        fields = ['id', 'title', 'description', 'created_at', 'owner', 'authors', 'posts']
+        fields = ['id', 'title', 'description', 'created_at', 'updated_at', 'owner', 'authors', 'posts']
 
     def create(self, validated_data):
         authors_list = validated_data.pop('authors', [])
