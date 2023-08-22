@@ -23,7 +23,6 @@ class BlogQuerySet(models.QuerySet):
 
 class Tag(models.Model):
     tag_name = models.CharField(
-        'Назвнаие тега',
         max_length=20,
         unique=True)
 
@@ -39,28 +38,21 @@ class Post(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='posts',
-        verbose_name='Автор поста')
+        related_name='posts')
     title = models.CharField(
-        'Назвнаие заголовка',
         max_length=50,
         db_index=True)
-    body = models.TextField('Текст поста')
+    body = models.TextField()
     is_published = models.BooleanField(
-        'Статус публикации поста',
         choices=POST_TYPES,
         default='False',
         null=True)
     created_at = models.DateTimeField(
-        'Когда создан пост',
         auto_now_add=True)
-
     views = models.IntegerField(default=0)
-
     tags = models.ManyToManyField(
         Tag,
         related_name='tags',
-        verbose_name='Теги',
         blank=True)
     likes = models.ManyToManyField(
         User,
@@ -76,31 +68,24 @@ class Post(models.Model):
 
 class Blog(models.Model):
     title = models.CharField(
-        'Назвнаие блога',
         max_length=50,
         db_index=True)
     description = models.CharField(
-        'Описание блога',
         max_length=50,
         blank=True)
     created_at = models.DateTimeField(
-        'Когда создан блог',
         auto_now_add=True)
     updated_at = models.DateTimeField(
-        'Дата последнего обновления',
         auto_now=True)
     authors = models.ManyToManyField(
         User,
-        verbose_name='Автор(ы)',
         related_name='authors')
     owner = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        verbose_name='Пользователь',
         related_name='owners')
     posts = models.ManyToManyField(
         Post,
-        verbose_name='Посты блога',
         related_name='posts',
         blank=True)
 
@@ -116,7 +101,6 @@ class User(User):
         (False, 'Не админимтратор'),
     )
     is_admin = models.BooleanField(
-        'Статус пользователя',
         choices=USER_TYPES,
         db_index=True,
         default='False',
@@ -124,7 +108,6 @@ class User(User):
     subscriptions = models.ManyToManyField(
         Blog,
         related_name='subscription_blogs',
-        verbose_name='ПОдписки',
         blank=True
     )
 
@@ -133,16 +116,13 @@ class Comment(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='comments',
-        verbose_name='Автор Комментария')
+        related_name='comments')
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
-        related_name='comments',
-        verbose_name='пост Комментария')
-    body = models.TextField('комментарий')
+        related_name='comments')
+    body = models.TextField()
     created_at = models.DateTimeField(
-        'Когда написанн комментарий',
         auto_now_add=True,
         db_index=True)
 
