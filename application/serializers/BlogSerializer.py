@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from rest_framework.exceptions import PermissionDenied
+
 from application.models import Blog, User, Post
 
 from application.serializers.UserSerializer import UserSerializer
@@ -37,6 +39,13 @@ class BlogSerializerСhanges(serializers.ModelSerializer):
         return blog
 
     def update(self, instance, validated_data):
+        user = self.context['request'].user
+        owner_id = instance.owner.id
+        authors_id = [author.id for author in instance.authors.all()]
+
+        if not (user.is_staff or user.id == owner_id or user.id in authors_id):
+            raise PermissionDenied("You are not allowed to perform this action.")
+
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
         instance.owner = validated_data.get('owner', instance.owner)
@@ -51,13 +60,3 @@ class BlogSerializerСhanges(serializers.ModelSerializer):
             instance.posts.add(post)
 
         return instance
-
-
-        print('='*10)
-        print(validated_data)
-        print(validated_data['owner'])
-        print('='*20)
-        print(instance)
-        print(instance.owner)
-        print(instance.authors.all())
-        print('='*10)
