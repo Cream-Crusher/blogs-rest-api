@@ -51,3 +51,13 @@ class BlogSerializerСhanges(serializers.ModelSerializer):
             instance.posts.add(post)
 
         return instance
+
+
+        print('='*10)
+        print(validated_data)
+        print(validated_data['owner'])
+        print('='*20)
+        print(instance)
+        print(instance.owner)
+        print(instance.authors.all())
+        print('='*10)

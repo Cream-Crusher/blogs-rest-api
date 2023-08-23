@@ -96,15 +96,6 @@ class Blog(models.Model):
 
 
 class User(User):
-    USER_TYPES = (
-        (True, ' Администратор'),
-        (False, 'Не админимтратор'),
-    )
-    is_admin = models.BooleanField(
-        choices=USER_TYPES,
-        db_index=True,
-        default='False',
-        null=True)
     subscriptions = models.ManyToManyField(
         Blog,
         related_name='subscription_blogs',
