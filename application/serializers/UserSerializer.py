@@ -4,11 +4,11 @@ from application.models import User, Blog
 
 class UserSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    is_admin = serializers.BooleanField(read_only=True)
+    is_staff = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'is_admin']
+        fields = ['id', 'username', 'is_staff']
 
 
 class UserSerializerСhanges(serializers.ModelSerializer):
@@ -17,7 +17,7 @@ class UserSerializerСhanges(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'is_admin', 'password', 'subscriptions']
+        fields = ['id', 'username', 'is_staff', 'password', 'subscriptions']
 
     def create(self, validated_data):
         subscriptions_list = validated_data.pop('subscriptions', [])
