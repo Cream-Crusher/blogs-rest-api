@@ -1,5 +1,5 @@
 from rest_framework import generics
-from application.serializers.BlogSerializer import BlogSerializer, BlogSerializerСhanges
+from application.serializers.BlogSerializer import BlogSerializer, BlogCRUDSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -30,4 +30,4 @@ class SubscriptionsBlog(APIView):
 class BlogDetails(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Blog.objects.order_by('updated_at').loading_db_queries()
-    serializer_class = BlogSerializerСhanges
+    serializer_class = BlogCRUDSerializer

@@ -1,5 +1,5 @@
 from rest_framework import generics
-from application.serializers.PostSerializer import PostSerializer, PostSerializerСhanges
+from application.serializers.PostSerializer import PostSerializer, PostCRUDSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -20,7 +20,7 @@ class PostsList(generics.ListAPIView):
 class PostDetails(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Post.objects.count_like().loading_db_queries()
-    serializer_class = PostSerializerСhanges
+    serializer_class = PostCRUDSerializer
 
 
 class MyPost(APIView):

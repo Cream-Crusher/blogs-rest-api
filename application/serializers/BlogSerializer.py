@@ -1,23 +1,22 @@
-from rest_framework import serializers
-from rest_framework.exceptions import PermissionDenied
+from rest_framework import serializers, exceptions
 
 from application.models import Blog, User, Post
 
 from application.serializers.UserSerializer import UserSerializer
-from application.serializers.PostSerializer import PostModelSerializer
+from application.serializers.PostSerializer import BlogPostSerializer
 
 
 class BlogSerializer(serializers.ModelSerializer):
     owner = UserSerializer(many=False)
     authors = UserSerializer(many=True)
-    posts = PostModelSerializer(many=True)
+    posts = BlogPostSerializer(many=True)
 
     class Meta:
         model = Blog
         fields = ['id', 'title', 'description', 'created_at', 'updated_at', 'owner', 'authors', 'posts']
 
 
-class BlogSerializerСhanges(serializers.ModelSerializer):
+class BlogCRUDSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     created_at = serializers.DateTimeField(read_only=True)
     updated_at = serializers.DateTimeField(read_only=True)
@@ -50,7 +49,7 @@ class BlogSerializerСhanges(serializers.ModelSerializer):
                 instance.posts.set(posts)
                 return instance
             else:
-                raise PermissionDenied("You are not allowed to perform this action.")
+                raise exceptions.PermissionDenied("You are not allowed to perform this action.")
 
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)

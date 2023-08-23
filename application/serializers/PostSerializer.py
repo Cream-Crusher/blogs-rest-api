@@ -1,13 +1,13 @@
-from rest_framework import serializers
+from rest_framework import serializers, exceptions
+
 from application.models import Post, Tag, User
 
-from rest_framework.exceptions import PermissionDenied
 from application.serializers.UserSerializer import UserSerializer
 from application.serializers.TagSerializer import TagSerializer
 from application.serializers.CommentSerializer import CommentSerializer
 
 
-class PostModelSerializer(serializers.ModelSerializer):  # Запросы данных для других сериализаторов
+class BlogPostSerializer(serializers.ModelSerializer):  # Запросы данных для других сериализаторов
 
     class Meta:
         fields = '__all__'
@@ -26,7 +26,7 @@ class PostSerializer(serializers.ModelSerializer):  # Запросы получ�
         fields = ['id', 'title', 'body', 'is_published', 'created_at', 'views', 'author', 'tags', 'like_count', 'comments']
 
 
-class PostSerializerСhanges(serializers.ModelSerializer):  # запросы изменеия данных
+class PostCRUDSerializer(serializers.ModelSerializer):  # запросы изменеия данных
     id = serializers.IntegerField(read_only=True)
     views = serializers.IntegerField(read_only=True)
 
@@ -53,7 +53,7 @@ class PostSerializerСhanges(serializers.ModelSerializer):  # запросы и�
         author_id = instance.author.id
 
         if not (user.is_staff or user.id == author_id):
-            raise PermissionDenied("You are not allowed to perform this action.")
+            raise exceptions.PermissionDenied("You are not allowed to perform this action.")
 
         instance.title = validated_data.get('title', instance.title)
         instance.body = validated_data.get('body', instance.body)

@@ -1,6 +1,5 @@
-from rest_framework import serializers
+from rest_framework import serializers, exceptions
 from application.models import User, Blog
-from rest_framework.exceptions import PermissionDenied
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -31,7 +30,7 @@ class UserSerializerCreate(serializers.ModelSerializer):
         return user
 
 
-class UserSerializerСhanges(serializers.ModelSerializer):
+class UserSerializerRUD(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     username = serializers.CharField()
     is_staff = serializers.BooleanField()
@@ -46,7 +45,7 @@ class UserSerializerСhanges(serializers.ModelSerializer):
         user_id = instance.id
 
         if not (user.is_staff or user.id == user_id):
-            raise PermissionDenied("You are not allowed to perform this action.")
+            raise exceptions.PermissionDenied("You are not allowed to perform this action.")
 
         if user.is_staff:
             instance.is_staff = validated_data.get('is_staff', instance.is_staff)
