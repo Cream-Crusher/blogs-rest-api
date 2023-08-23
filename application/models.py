@@ -62,6 +62,9 @@ class Post(models.Model):
 
     objects = PostQuerySet.as_manager()
 
+    class Meta:
+        ordering = ['-created_at']
+
     def __str__(self):
         return self.title
 
@@ -90,6 +93,9 @@ class Blog(models.Model):
         blank=True)
 
     objects = BlogQuerySet.as_manager()
+
+    class Meta:
+        ordering = ['-updated_at']
 
     def __str__(self):
         return self.title

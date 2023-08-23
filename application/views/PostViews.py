@@ -8,8 +8,8 @@ from application.serializers.PostSerializer import PostSerializer, PostCRUDSeria
 from application.models import Post
 
 from django.shortcuts import get_object_or_404
-from django.urls import reverse
 from django.shortcuts import redirect
+from django.urls import reverse
 
 
 class PostsList(generics.ListAPIView):

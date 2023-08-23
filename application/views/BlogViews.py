@@ -10,7 +10,7 @@ from application.models import Blog
 
 class BlogsList(generics.ListAPIView):
     permission_classes = [AllowAny]
-    queryset = Blog.objects.order_by('updated_at').loading_db_queries()
+    queryset = Blog.objects.loading_db_queries()
     serializer_class = BlogSerializer
 
 
@@ -18,7 +18,7 @@ class SubscriptionsBlog(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        blogs = Blog.objects.order_by('updated_at').filter(subscription_blogs=request.user).loading_db_queries()
+        blogs = Blog.objects.filter(subscription_blogs=request.user).loading_db_queries()
 
         serializer = BlogSerializer(
             instance=blogs,
@@ -30,5 +30,5 @@ class SubscriptionsBlog(APIView):
 
 class BlogDetails(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
-    queryset = Blog.objects.order_by('updated_at').loading_db_queries()
+    queryset = Blog.objects.loading_db_queries()
     serializer_class = BlogCRUDSerializer
