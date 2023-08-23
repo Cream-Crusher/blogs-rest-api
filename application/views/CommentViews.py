@@ -1,6 +1,7 @@
-from rest_framework import generics
-from application.serializers.CommentSerializer import CommentSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework import generics
+
+from application.serializers.CommentSerializer import CommentSerializer
 
 from application.models import Comment
 

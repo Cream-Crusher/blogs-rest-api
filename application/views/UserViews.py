@@ -1,6 +1,7 @@
-from rest_framework import generics
-from application.serializers.UserSerializer import UserSerializer, UserSerializerCreate, UserSerializerRUD
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAuthenticated
+from rest_framework import generics
+
+from application.serializers.UserSerializer import UserSerializer, UserSerializerCreate, UserSerializerRUD
 
 from application.models import User
 

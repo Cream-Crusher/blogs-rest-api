@@ -1,8 +1,8 @@
-from django.contrib import admin
 from django.urls import path, include
-from application.views import BlogViews, PostViews, TagViews, UserViews, CommentViews
-
+from django.contrib import admin
 from django.conf import settings
+
+from application.views import BlogViews, PostViews, TagViews, UserViews, CommentViews
 
 from .yasg_url import urlpatterns as doc_url
 
