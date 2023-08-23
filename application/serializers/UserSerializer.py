@@ -6,11 +6,10 @@ from rest_framework.exceptions import PermissionDenied
 class UserSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     is_staff = serializers.BooleanField(read_only=True)
-    subscriptions = serializers.PrimaryKeyRelatedField(queryset=Blog.objects.all(), many=True)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'is_staff', 'subscriptions']
+        fields = ['id', 'username', 'is_staff']
 
 
 class UserSerializerCreate(serializers.ModelSerializer):

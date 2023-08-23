@@ -41,9 +41,16 @@ class BlogSerializerСhanges(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         user = self.context['request'].user
         owner_id = instance.owner.id
+        authors_id = [author.id for author in instance.authors.all()]
 
         if not (user.is_staff or user.id == owner_id):
-            raise PermissionDenied("You are not allowed to perform this action.")
+
+            if user.id in authors_id:  # если пользователь есть в authors, то может редактировать посты.
+                posts = validated_data.get('posts', instance.posts)
+                instance.posts.set(posts)
+                return instance
+            else:
+                raise PermissionDenied("You are not allowed to perform this action.")
 
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
