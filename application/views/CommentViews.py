@@ -11,7 +11,7 @@ class CommentList(generics.ListAPIView):
     serializer_class = CommentSerializer
 
 
-class CommentDetails(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
+class CommentDetails(generics.RetrieveDestroyAPIView, generics.CreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer

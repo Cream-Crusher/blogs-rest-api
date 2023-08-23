@@ -26,7 +26,8 @@ urlpatterns = [
     path('tag/<int:pk>', TagViews.TagDetails.as_view()),
 
     path('user/', UserViews.UserList.as_view()),
-    path('user/<int:pk>', UserViews.UserDetails.as_view()),
+    path('user/<int:pk>', UserViews.UserCreate.as_view()),
+    path('user/<int:pk>/update', UserViews.UserDetails.as_view()),
 
     path('сomment/', CommentViews.CommentList.as_view()),
     path('сomment/<int:pk>', CommentViews.CommentDetails.as_view()),

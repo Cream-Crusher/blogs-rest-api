@@ -53,10 +53,7 @@ class BlogSerializerСhanges(serializers.ModelSerializer):
         authors = validated_data.get('authors', instance.authors)
         posts = validated_data.get('posts', instance.posts)
 
-        for author in authors:
-            instance.authors.add(author)
-
-        for post in posts:
-            instance.posts.add(post)
+        instance.authors.set(authors)
+        instance.posts.set(posts)
 
         return instance
