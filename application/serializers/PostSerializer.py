@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from application.models import Post, Tag, User
 
+from rest_framework.exceptions import PermissionDenied
 from application.serializers.UserSerializer import UserSerializer
 from application.serializers.TagSerializer import TagSerializer
 from application.serializers.CommentSerializer import CommentSerializer
@@ -48,6 +49,12 @@ class PostSerializerСhanges(serializers.ModelSerializer):  # запросы и�
         return post
 
     def update(self, instance, validated_data):
+        user = self.context['request'].user
+        author_id = instance.author.id
+
+        if not (user.is_staff or user.id == author_id):
+            raise PermissionDenied("You are not allowed to perform this action.")
+
         instance.title = validated_data.get('title', instance.title)
         instance.body = validated_data.get('body', instance.body)
         instance.is_published = validated_data.get('is_published', instance.is_published)
