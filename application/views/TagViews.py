@@ -1,6 +1,6 @@
 from rest_framework import generics
 from application.serializers.TagSerializer import TagSerializer
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAdminUser
 
 from application.models import Tag
 
@@ -12,6 +12,6 @@ class TagList(generics.ListAPIView):
 
 
 class TagDetails(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
