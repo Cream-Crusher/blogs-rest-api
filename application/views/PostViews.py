@@ -23,6 +23,14 @@ class PostDetails(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView)
     queryset = Post.objects.count_like().loading_db_queries()
     serializer_class = PostCRUDSerializer
 
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.views += 1
+        instance.save()
+        serializer = self.get_serializer(instance)
+
+        return Response(serializer.data)
+
 
 class MyPost(APIView):
     permission_classes = [IsAuthenticated]
