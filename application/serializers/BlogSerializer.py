@@ -1,14 +1,21 @@
 from rest_framework import serializers, exceptions
 
+from django.utils.functional import lazy
+
 from application.serializers.PostSerializer import BlogPostSerializer
 from application.serializers.UserSerializer import UserSerializer
 from application.models import Blog, User, Post
 
 
+def lazy_serializer(fn, *args, **kwargs):
+
+    return lazy(fn, str)
+
+
 class BlogSerializer(serializers.ModelSerializer):
     owner = UserSerializer(many=False)
-    authors = UserSerializer(many=True)
-    posts = BlogPostSerializer(many=True)
+    authors = lazy_serializer(UserSerializer, many=True)
+    posts = lazy_serializer(BlogPostSerializer, many=True)
 
     class Meta:
         model = Blog

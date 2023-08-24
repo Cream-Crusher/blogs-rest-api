@@ -1,9 +1,16 @@
 from rest_framework import serializers, exceptions
 
+from django.utils.functional import lazy
+
 from application.serializers.CommentSerializer import CommentSerializer
 from application.serializers.UserSerializer import UserSerializer
 from application.serializers.TagSerializer import TagSerializer
 from application.models import Post, Tag, User
+
+
+def lazy_serializer(fn, *args, **kwargs):
+
+    return lazy(fn, str)
 
 
 class BlogPostSerializer(serializers.ModelSerializer):  # Запросы данных для других сериализаторов
@@ -15,8 +22,8 @@ class BlogPostSerializer(serializers.ModelSerializer):  # Запросы дан�
 
 class PostSerializer(serializers.ModelSerializer):  # Запросы получения данных
     author = UserSerializer(many=False)
-    tags = TagSerializer(many=True)
-    comments = CommentSerializer(many=True)
+    tags = lazy_serializer(TagSerializer, many=True)
+    comments = lazy_serializer(CommentSerializer, many=True)
 
     like_count = serializers.IntegerField()
     relevance = serializers.IntegerField()
