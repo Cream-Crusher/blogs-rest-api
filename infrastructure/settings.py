@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-u&j2r+t5!yup3rlvg$b#9s%8e0+x6_6qinq8@9u%npy^5qvbt8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -41,9 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'application.apps.ApplicationConfig',
     'debug_toolbar',
+    'rest_framework',
     'drf_yasg',
-    'rest_framework'
+    'django_filters'
 ]
+
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -51,8 +53,13 @@ REST_FRAMEWORK = {
 
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAdminUser'
-    ],
+        ],
+
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+        ],
 }
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
