@@ -20,10 +20,11 @@ class PostFilter(FilterSet):
     author = CharFilter(field_name='author', lookup_expr='icontains')
     created_at = DateFromToRangeFilter(field_name='created_at', lookup_expr='gte')
     like_count = NumberFilter(field_name='like_count', lookup_expr='gte')
+    relevance = NumberFilter(field_name='relevance', lookup_expr='gte')
 
     class Meta:
         model = Post
-        fields = ['title', 'tags', 'author', 'created_at', 'like_count']
+        fields = ['title', 'tags', 'author', 'created_at', 'like_count', 'relevance']
 
 
 class PostsList(generics.ListAPIView):
