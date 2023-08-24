@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.db.models import Count
+from django.db.models import Count, F
 from django.db import models
 
 
@@ -12,6 +12,10 @@ class PostQuerySet(models.QuerySet):
     def count_like(self):
 
         return self.annotate(like_count=Count('likes'))
+
+    def calculate_relevance(self):
+
+        return self.annotate(relevance=F('like_count')*4 + F('views')*1.1)
 
 
 class BlogQuerySet(models.QuerySet):

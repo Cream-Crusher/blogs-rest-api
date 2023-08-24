@@ -20,10 +20,11 @@ class PostSerializer(serializers.ModelSerializer):  # Запросы получ�
     comments = CommentSerializer(many=True)
 
     like_count = serializers.IntegerField()
+    relevance = serializers.IntegerField()
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'body', 'is_published', 'created_at', 'views', 'author', 'tags', 'like_count', 'comments']
+        fields = ['id', 'title', 'body', 'is_published', 'created_at', 'views', 'author', 'tags', 'like_count', 'comments', 'relevance']
 
 
 class PostCRUDSerializer(serializers.ModelSerializer):  # запросы изменеия данных
