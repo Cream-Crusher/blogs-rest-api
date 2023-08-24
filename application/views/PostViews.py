@@ -6,10 +6,19 @@ from application.serializers.PostSerializer import PostSerializer, PostCRUDSeria
 
 from application.models import Post
 
-from django_filters.rest_framework import DjangoFilterBackend
+from django_filters.rest_framework import DjangoFilterBackend, DateFromToRangeFilter
+from django_filters import FilterSet
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
+
+
+class PostFilter(FilterSet):
+    created_at = DateFromToRangeFilter()
+
+    class Meta:
+        model = Post
+        fields = ['title', 'tags', 'author', 'created_at', ]
 
 
 class PostsList(generics.ListAPIView):
@@ -17,7 +26,7 @@ class PostsList(generics.ListAPIView):
     queryset = Post.objects.filter(is_published=True).count_like().loading_db_queries()
     serializer_class = PostSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['title', 'tags', 'author']
+    filterset_class = PostFilter
 
 
 class PostDetails(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
@@ -38,7 +47,7 @@ class MyPost(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = PostSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['title', 'tags']
+    filterset_class = PostFilter
 
     def get_queryset(self):
         return Post.objects.filter(author=self.request.user).count_like().loading_db_queries()
