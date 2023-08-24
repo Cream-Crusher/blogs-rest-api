@@ -6,7 +6,7 @@ from application.serializers.PostSerializer import PostSerializer, PostCRUDSeria
 
 from application.models import Post
 
-from django_filters.rest_framework import DjangoFilterBackend, DateFromToRangeFilter
+from django_filters.rest_framework import DjangoFilterBackend, DateFromToRangeFilter, NumberFilter
 from django_filters import FilterSet
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -15,10 +15,11 @@ from django.urls import reverse
 
 class PostFilter(FilterSet):
     created_at = DateFromToRangeFilter()
+    like_count = NumberFilter(field_name='like_count')
 
     class Meta:
         model = Post
-        fields = ['title', 'tags', 'author', 'created_at', ]
+        fields = ['title', 'tags', 'author', 'created_at', 'like_count', ]
 
 
 class PostsList(generics.ListAPIView):
