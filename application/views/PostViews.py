@@ -1,12 +1,12 @@
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework import generics
 
 from application.serializers.PostSerializer import PostSerializer, PostCRUDSerializer
 
 from application.models import Post
 
+from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -16,6 +16,8 @@ class PostsList(generics.ListAPIView):
     permission_classes = [AllowAny]
     queryset = Post.objects.filter(is_published=True).count_like().loading_db_queries()
     serializer_class = PostSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['title', 'tags', 'author']
 
 
 class PostDetails(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
@@ -32,16 +34,14 @@ class PostDetails(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView)
         return Response(serializer.data)
 
 
-class MyPost(APIView):
+class MyPost(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = PostSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['title', 'tags']
 
-    def get(self, request):
-        posts = Post.objects.filter(author=request.user).count_like().loading_db_queries()
-        serializer = PostSerializer(
-            instance=posts,
-            many=True
-        )
-        return Response(serializer.data)
+    def get_queryset(self):
+        return Post.objects.filter(author=self.request.user).count_like().loading_db_queries()
 
 
 def PostLike(request, pk):
