@@ -1,9 +1,8 @@
 from rest_framework import serializers, exceptions
 
-from application.models import Blog, User, Post
-
-from application.serializers.UserSerializer import UserSerializer
 from application.serializers.PostSerializer import BlogPostSerializer
+from application.serializers.UserSerializer import UserSerializer
+from application.models import Blog, User, Post
 
 
 class BlogSerializer(serializers.ModelSerializer):

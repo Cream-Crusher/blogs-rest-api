@@ -1,12 +1,12 @@
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, AllowAny
-from rest_framework import generics
 from rest_framework.filters import OrderingFilter
+from rest_framework import generics
 
 from django_filters.rest_framework import DjangoFilterBackend, DateFromToRangeFilter
 from django_filters import FilterSet
 
-from application.serializers.BlogSerializer import BlogSerializer, BlogCRUDSerializer
 
+from application.serializers.BlogSerializer import BlogSerializer, BlogCRUDSerializer
 from application.models import Blog
 
 

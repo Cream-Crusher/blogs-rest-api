@@ -15,7 +15,7 @@ class PostQuerySet(models.QuerySet):
 
     def calculate_relevance(self):
 
-        return self.annotate(relevance=F('like_count')*4 + F('views')*1.1)
+        return self.annotate(relevance=F('like_count')*2 + F('views')*1.2)
 
 
 class BlogQuerySet(models.QuerySet):

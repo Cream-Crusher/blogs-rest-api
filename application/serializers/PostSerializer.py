@@ -1,10 +1,9 @@
 from rest_framework import serializers, exceptions
 
-from application.models import Post, Tag, User
-
+from application.serializers.CommentSerializer import CommentSerializer
 from application.serializers.UserSerializer import UserSerializer
 from application.serializers.TagSerializer import TagSerializer
-from application.serializers.CommentSerializer import CommentSerializer
+from application.models import Post, Tag, User
 
 
 class BlogPostSerializer(serializers.ModelSerializer):  # Запросы данных для других сериализаторов

@@ -2,7 +2,6 @@ from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework import generics
 
 from application.serializers.TagSerializer import TagSerializer
-
 from application.models import Tag
 
 

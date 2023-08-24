@@ -1,10 +1,9 @@
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, AllowAny
+from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
 from rest_framework import generics
-from rest_framework.filters import OrderingFilter
 
 from application.serializers.PostSerializer import PostSerializer, PostCRUDSerializer
-
 from application.models import Post
 
 from django_filters.rest_framework import DjangoFilterBackend, DateFromToRangeFilter, NumberFilter
