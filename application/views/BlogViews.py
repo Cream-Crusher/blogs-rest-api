@@ -1,5 +1,6 @@
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, AllowAny
 from rest_framework import generics
+from rest_framework.filters import OrderingFilter
 
 from django_filters.rest_framework import DjangoFilterBackend, DateFromToRangeFilter
 from django_filters import FilterSet
@@ -22,8 +23,9 @@ class BlogsList(generics.ListAPIView):
     permission_classes = [AllowAny]
     queryset = Blog.objects.loading_db_queries()
     serializer_class = BlogSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_class = BlogFilter
+    ordering_fields = ['title', 'owner', 'authors', 'created_at', ]
 
 
 class SubscriptionsBlog(generics.ListAPIView):

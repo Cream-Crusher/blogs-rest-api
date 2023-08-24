@@ -55,7 +55,7 @@ class MyPost(generics.ListAPIView):
     serializer_class = PostSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_class = PostFilter
-    ordering_fields = ['title', 'tags', 'author', 'created_at', 'like_count', ]
+    ordering_fields = ['title', 'tags', 'author', 'created_at', 'like_count']
 
     def get_queryset(self):
         return Post.objects.filter(author=self.request.user).count_like().loading_db_queries()
