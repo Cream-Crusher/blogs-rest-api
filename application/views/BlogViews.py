@@ -39,7 +39,13 @@ class SubscriptionsBlog(generics.ListAPIView):
         return Blog.objects.filter(subscription_blogs=user).loading_db_queries()
 
 
-class BlogDetails(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
+class BlogCreate(generics.CreateAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = Blog.objects.loading_db_queries()
+    serializer_class = BlogCRUDSerializer
+
+
+class BlogDetails(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Blog.objects.loading_db_queries()
     serializer_class = BlogCRUDSerializer

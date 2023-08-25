@@ -5,19 +5,19 @@ from application.serializers.UserSerializer import UserSerializer, UserSerialize
 from application.models import User
 
 
-class UserList(generics.ListAPIView):
+class GetUserDTO(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = User.objects.all()
+    serializer_class = UserSerializerRUD
+
+
+class GetUsersListDTO(generics.ListAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
-class UserCreate(generics.ListCreateAPIView):
+class CreateUserDTO(generics.CreateAPIView):
     permission_classes = [AllowAny]
     queryset = User.objects.all()
     serializer_class = UserSerializerCreate
-
-
-class UserDetails(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
-    queryset = User.objects.all()
-    serializer_class = UserSerializerRUD

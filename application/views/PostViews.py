@@ -26,16 +26,7 @@ class PostFilter(FilterSet):
         fields = ['title', 'tags', 'author', 'created_at', 'like_count', 'relevance']
 
 
-class PostsList(generics.ListAPIView):
-    permission_classes = [AllowAny]
-    queryset = Post.objects.filter(is_published=True).count_like().loading_db_queries().calculate_relevance()
-    serializer_class = PostSerializer
-    filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filterset_class = PostFilter
-    ordering_fields = ['title', 'tags', 'author', 'created_at', 'like_count', 'relevance']
-
-
-class PostDetails(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
+class GetPostDTO(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Post.objects.count_like().loading_db_queries()
     serializer_class = PostCRUDSerializer
@@ -49,7 +40,22 @@ class PostDetails(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView)
         return Response(serializer.data)
 
 
-class MyPost(generics.ListAPIView):
+class GetPostsListDTO(generics.ListAPIView):
+    permission_classes = [AllowAny]
+    queryset = Post.objects.filter(is_published=True).count_like().loading_db_queries().calculate_relevance()
+    serializer_class = PostSerializer
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_class = PostFilter
+    ordering_fields = ['title', 'tags', 'author', 'created_at', 'like_count', 'relevance']
+
+
+class CreatePostDTO(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Post.objects.count_like().loading_db_queries()
+    serializer_class = PostCRUDSerializer
+
+
+class MyPostDTO(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = PostSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter]

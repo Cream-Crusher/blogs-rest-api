@@ -5,13 +5,19 @@ from application.serializers.TagSerializer import TagSerializer
 from application.models import Tag
 
 
-class TagList(generics.ListAPIView):
+class GetTagDTO(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAdminUser]
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+
+
+class GetTagsListDTO(generics.ListAPIView):
     permission_classes = [AllowAny]
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
 
 
-class TagDetails(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
+class CreateTagDTO(generics.CreateAPIView):
     permission_classes = [IsAdminUser]
     queryset = Tag.objects.all()
     serializer_class = TagSerializer

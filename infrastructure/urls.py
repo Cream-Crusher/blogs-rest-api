@@ -14,23 +14,27 @@ urlpatterns = [
     path('home', BlogViews.BlogsList.as_view(), name='home'),
 
     path('blog/', BlogViews.BlogsList.as_view(), name='blog'),
-    path('blog/subscriptions', BlogViews.SubscriptionsBlog.as_view(), name='blog_subscriptions'),
+    path('blog/subscriptions', BlogViews.SubscriptionsBlog.as_view(), name='blog_create'),
+    path('blog/create', BlogViews.BlogCreate.as_view(), name='blog_subscriptions'),
     path('blog/<int:pk>', BlogViews.BlogDetails.as_view(), name='blog_id'),
 
-    path('post/', PostViews.PostsList.as_view(), name='post'),
-    path('post/my', PostViews.MyPost.as_view(), name='my_post'),
-    path('post/<int:pk>', PostViews.PostDetails.as_view(), name='post_id'),
+    path('post/', PostViews.GetPostsListDTO.as_view(), name='post'),
+    path('post/my', PostViews.MyPostDTO.as_view(), name='my_post'),
+    path('post/create', PostViews.CreatePostDTO.as_view(), name='post_create'),
+    path('post/<int:pk>', PostViews.GetPostDTO.as_view(), name='post_id'),
     path('post/<int:pk>/like/', PostViews.PostLike, name="post_like"),
 
-    path('tag/', TagViews.TagList.as_view()),
-    path('tag/<int:pk>', TagViews.TagDetails.as_view()),
+    path('tag/', TagViews.GetTagsListDTO.as_view()),
+    path('tag/create', TagViews.CreateTagDTO.as_view()),
+    path('tag/<int:pk>', TagViews.GetTagDTO.as_view()),
 
-    path('user/', UserViews.UserList.as_view()),
-    path('user/<int:pk>', UserViews.UserCreate.as_view()),
-    path('user/<int:pk>/update', UserViews.UserDetails.as_view()),
+    path('user/', UserViews.GetUsersListDTO.as_view()),
+    path('user/create', UserViews.CreateUserDTO.as_view()),
+    path('user/<int:pk>', UserViews.GetUserDTO.as_view()),
 
-    path('сomment/', CommentViews.CommentList.as_view()),
-    path('сomment/<int:pk>', CommentViews.CommentDetails.as_view()),
+    path('сomment/', CommentViews.GetCommentsListDTO.as_view()),
+    path('сomment/create', CommentViews.CreateCommentDTO.as_view()),
+    path('сomment/<int:pk>', CommentViews.GetCommentDTO.as_view()),
 ]
 
 urlpatterns += doc_url

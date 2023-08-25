@@ -5,7 +5,7 @@ from django.db import models
 
 class PostQuerySet(models.QuerySet):
 
-    def loading_db_queries(self):  # Оптимизация запросов к DB
+    def loading_db_queries(self):
 
         return self.prefetch_related('author', 'tags')
 
@@ -20,7 +20,7 @@ class PostQuerySet(models.QuerySet):
 
 class BlogQuerySet(models.QuerySet):
 
-    def loading_db_queries(self):  # Оптимизация запросов к DB
+    def loading_db_queries(self):
 
         return self.select_related('owner').prefetch_related('authors', 'owner', 'posts')
 

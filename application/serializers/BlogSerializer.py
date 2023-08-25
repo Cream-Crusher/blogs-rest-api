@@ -50,7 +50,7 @@ class BlogCRUDSerializer(serializers.ModelSerializer):
 
         if not (user.is_staff or user.id == owner_id):
 
-            if user.id in authors_id:  # если пользователь есть в authors, то может редактировать посты.
+            if user.id in authors_id:
                 posts = validated_data.get('posts', instance.posts)
                 instance.posts.set(posts)
                 return instance
