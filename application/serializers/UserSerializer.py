@@ -15,6 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
 class UserSerializerCreate(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     username = serializers.CharField()
+    password = serializers.CharField(write_only=True)
     subscriptions = serializers.PrimaryKeyRelatedField(queryset=Blog.objects.all(), many=True)
 
     class Meta:
@@ -23,7 +24,10 @@ class UserSerializerCreate(serializers.ModelSerializer):
 
     def create(self, validated_data):
         subscriptions_list = validated_data.pop('subscriptions', [])
+        password = validated_data.pop('password')
         user = super().create(validated_data)
+        user.set_password(password)
+        user.save()
 
         if subscriptions_list:
             user.subscriptions.set(subscriptions_list)
