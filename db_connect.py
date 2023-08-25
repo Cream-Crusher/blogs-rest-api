@@ -1,4 +1,4 @@
-dbname = 'mediasoft_django_tz'
+dbname = 'name of created db'
 user = 'postgres'
-password = 'Ppopplop2004'
+password = 'postgres'
 host = 'localhost'
