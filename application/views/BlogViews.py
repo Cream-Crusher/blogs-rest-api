@@ -16,7 +16,7 @@ class BlogFilter(FilterSet):
 
     class Meta:
         model = Blog
-        fields = ['title', 'owner', 'authors', 'created_at', ]
+        fields = ['title', 'owner', 'authors', 'created_at', 'updated_at']
 
 
 class BlogsList(generics.ListAPIView):
@@ -25,7 +25,7 @@ class BlogsList(generics.ListAPIView):
     serializer_class = BlogSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_class = BlogFilter
-    ordering_fields = ['title', 'owner', 'authors', 'created_at', ]
+    ordering_fields = ['title', 'owner', 'authors', 'created_at', 'updated_at']
 
 
 class SubscriptionsBlog(generics.ListAPIView):
