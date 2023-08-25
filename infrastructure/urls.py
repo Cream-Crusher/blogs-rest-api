@@ -11,12 +11,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls'), name='auth'),
 
-    path('home', BlogViews.BlogsList.as_view(), name='home'),
+    path('home', BlogViews.GetBlogsListDTO.as_view(), name='home'),
 
-    path('blog/', BlogViews.BlogsList.as_view(), name='blog'),
-    path('blog/subscriptions', BlogViews.SubscriptionsBlog.as_view(), name='blog_create'),
-    path('blog/create', BlogViews.BlogCreate.as_view(), name='blog_subscriptions'),
-    path('blog/<int:pk>', BlogViews.BlogDetails.as_view(), name='blog_id'),
+    path('blog/', BlogViews.GetBlogsListDTO.as_view(), name='blog'),
+    path('blog/subscriptions', BlogViews.GetSubscriptionsBlogDTO.as_view(), name='blog_create'),
+    path('blog/create', BlogViews.CreateBlogDTO.as_view(), name='blog_subscriptions'),
+    path('blog/<int:pk>', BlogViews.GetBlogDTO.as_view(), name='blog_id'),
 
     path('post/', PostViews.GetPostsListDTO.as_view(), name='post'),
     path('post/my', PostViews.MyPostDTO.as_view(), name='my_post'),

@@ -19,7 +19,7 @@ class BlogFilter(FilterSet):
         fields = ['title', 'owner', 'authors', 'created_at', 'updated_at']
 
 
-class BlogsList(generics.ListAPIView):
+class GetBlogsListDTO(generics.ListAPIView):
     permission_classes = [AllowAny]
     queryset = Blog.objects.loading_db_queries()
     serializer_class = BlogSerializer
@@ -28,7 +28,19 @@ class BlogsList(generics.ListAPIView):
     ordering_fields = ['title', 'owner', 'authors', 'created_at', 'updated_at']
 
 
-class SubscriptionsBlog(generics.ListAPIView):
+class CreateBlogDTO(generics.CreateAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = Blog.objects.loading_db_queries()
+    serializer_class = BlogCRUDSerializer
+
+
+class GetBlogDTO(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = Blog.objects.loading_db_queries()
+    serializer_class = BlogCRUDSerializer
+
+
+class GetSubscriptionsBlogDTO(generics.ListAPIView):
     serializer_class = BlogSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
@@ -37,15 +49,3 @@ class SubscriptionsBlog(generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user
         return Blog.objects.filter(subscription_blogs=user).loading_db_queries()
-
-
-class BlogCreate(generics.CreateAPIView):
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    queryset = Blog.objects.loading_db_queries()
-    serializer_class = BlogCRUDSerializer
-
-
-class BlogDetails(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    queryset = Blog.objects.loading_db_queries()
-    serializer_class = BlogCRUDSerializer
