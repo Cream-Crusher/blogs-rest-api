@@ -6,7 +6,7 @@ from application.models import Blog, User, Post
 class BlogModelTestCase(TestCase):
 
     def setUp(self):
-        # Arrange
+        # arrange
         self.username = f'test_user_{self._testMethodName}'
         self.password = 'test_pass'
         self.title = 'test title'
