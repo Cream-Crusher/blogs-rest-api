@@ -33,11 +33,11 @@ class BlogModelTestCase(TestCase):
         self.blog.delete()
         self.post.delete()
 
-
     def test_blog_creation(self):
         """
         Проверка на create
         """
+        # act
         # assert
         self.assertEqual(self.blog.title, self.title)
         self.assertEqual(self.blog.description, self.description)
@@ -49,6 +49,7 @@ class BlogModelTestCase(TestCase):
         """
         Тест на вывод __str__
         """
+        # act
         # assert
         self.assertEqual(str(self.blog), self.title)
 
