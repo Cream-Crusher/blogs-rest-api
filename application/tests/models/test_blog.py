@@ -7,7 +7,7 @@ class BlogModelTestCase(TestCase):
 
     def setUp(self):
         # Arrange
-        self.username = 'test_user'
+        self.username = f'test_user_{self._testMethodName}'
         self.password = 'test_pass'
         self.title = 'test title'
         self.description = 'test discription'
@@ -32,6 +32,7 @@ class BlogModelTestCase(TestCase):
         self.user.delete()
         self.blog.delete()
         self.post.delete()
+
 
     def test_blog_creation(self):
         """

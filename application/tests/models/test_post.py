@@ -3,11 +3,11 @@ from unittest import TestCase
 from application.models import Tag, User, Post
 
 
-class BlogModelTestCase(TestCase):
+class PostModelTestCase(TestCase):
 
     def setUp(self):
         # Arrange
-        self.username = 'test_user'
+        self.username = f'test_user_{self._testMethodName}'
         self.password = 'test_pass'
         self.title = 'test title'
         self.body = 'test body'
