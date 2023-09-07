@@ -5,15 +5,10 @@ from application.views.BlogViews import BlogFilter
 
 
 class BlogFilterTestCase(TestCase):
-    class_variables = {'test_number': 1}
-
-    @classmethod
-    def tearDownClass(cls):  # для разности имён пользователя
-        cls.class_variables['test_number'] += 1
 
     def setUp(self):
         # arrange
-        self.username = f'test_user_{self._testMethodName}_{self.class_variables["test_number"]}'
+        self.username = f'test_user_{self._testMethodName}'
         self.password = 'test_pass'
         self.title = 'test title'
         self.description = 'test discription'
