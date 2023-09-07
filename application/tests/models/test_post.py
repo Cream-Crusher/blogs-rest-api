@@ -42,6 +42,34 @@ class PostModelTestCase(TestCase):
         self.assertIsNotNone(self.post.created_at)
         self.assertIsNotNone(self.post.is_published)
 
+    def test_get_post(self):
+        """
+        Тест на получение данных поста
+        """
+        # act
+        retrieved_post = Post.objects.get(id=self.post.id)
+
+        # assert
+        self.assertEqual(retrieved_post, self.post)
+
+    def test_update_post(self):
+        """
+        Тест на обновление данных поста
+        """
+        # act
+        new_title = 'Updated Title'
+        new_body = 'Updated Description'
+
+        self.post.title = new_title
+        self.post.body = new_body
+        self.post.save()
+
+        updated_blog = Post.objects.get(id=self.post.id)
+
+        # assert
+        self.assertEqual(updated_blog.title, new_title)
+        self.assertEqual(updated_blog.body, new_body)
+
     def test_str_representation(self):
         """
         Тест на вывод __str__

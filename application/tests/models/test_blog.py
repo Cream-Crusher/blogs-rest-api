@@ -33,7 +33,6 @@ class BlogModelTestCase(TestCase):
         self.blog.delete()
         self.post.delete()
 
-
     def test_blog_creation(self):
         """
         Проверка на create
@@ -45,6 +44,34 @@ class BlogModelTestCase(TestCase):
         self.assertEqual(self.blog.owner, self.user)
         self.assertIsNotNone(self.blog.created_at)
         self.assertIsNotNone(self.blog.updated_at)
+
+    def test_get_blog(self):
+        """
+        Тест на получение данных блога
+        """
+        # act
+        retrieved_blog = Blog.objects.get(id=self.blog.id)
+
+        # assert
+        self.assertEqual(retrieved_blog, self.blog)
+
+    def test_update_blog(self):
+        """
+        Тест на обновление данных блога
+        """
+        # act
+        new_title = 'Updated Title'
+        new_description = 'Updated Description'
+
+        self.blog.title = new_title
+        self.blog.description = new_description
+        self.blog.save()
+
+        updated_blog = Blog.objects.get(id=self.blog.id)
+
+        # assert
+        self.assertEqual(updated_blog.title, new_title)
+        self.assertEqual(updated_blog.description, new_description)
 
     def test_str_representation(self):
         """

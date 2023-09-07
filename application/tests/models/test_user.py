@@ -16,15 +16,9 @@ class UserModelTestCase(TestCase):
             username=self.username,
             password=self.password
         )
-        self.blog = Blog.objects.create(
-            title=self.title,
-            description=self.description,
-            owner=self.user
-        )
 
     def tearDown(self):
         self.user.delete()
-        self.blog.delete()
 
     def test_user_creation(self):
         """
@@ -34,6 +28,31 @@ class UserModelTestCase(TestCase):
 
         # assert
         self.assertEqual(self.user.username, self.username)
+
+    def test_get_user(self):
+        """
+        Тест на получение данных поста
+        """
+        # act
+        retrieved_user = User.objects.get(id=self.user.id)
+
+        # assert
+        self.assertEqual(retrieved_user, self.user)
+
+    def test_update_user(self):
+        """
+        Тест на обновление данных тега
+        """
+        # act
+        new_user = 'Updated user'
+
+        self.user.username = new_user
+        self.user.save()
+
+        updated_user = User.objects.get(id=self.user.id)
+
+        # assert
+        self.assertEqual(updated_user.username, new_user)
 
     def test_str_representation(self):
         """
