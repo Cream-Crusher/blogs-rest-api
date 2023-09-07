@@ -8,7 +8,7 @@ class BlogFilterTestCase(TestCase):
     class_variables = {'test_number': 1}
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(cls):  # для разности имён пользователя
         cls.class_variables['test_number'] += 1
 
     def setUp(self):
@@ -19,8 +19,6 @@ class BlogFilterTestCase(TestCase):
         self.description = 'test discription'
         self.filter_data_title = {'title': 'Test Blog 1'}
         self.filter_data_created_at = {'created_at_0': '2023-01-01', 'created_at_1': '2023-12-31'}
-        self.filter_data_created_at = {'created_at_0': '2023-01-01', 'created_at_1': '2023-12-31'}
-
         self.queryset = Blog.objects.all()
         self.user = User.objects.create(
             username=self.username,
