@@ -1,6 +1,6 @@
 # Blogs service  RESTful-API
 
-[Задание](https://drive.google.com/file/d/1bWf5agckf8XK6Jg-y3OUXbVifEUmsYvF/view)
+[Задание](https://drive.google.com/file/d/123yRO--E3vj0Azyf0bCVlMG6CMa2J5Mm/view)
 
 RESTful-API бэкенд для сервиса блогов
 
