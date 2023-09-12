@@ -1,4 +1,5 @@
-dbname = 'db_blogs_rest_api'
+
+dbname = 'name of created db'
 user = 'postgres'
-password = 'Ppopplop2004'
+password = 'postgres'
 host = 'localhost'
